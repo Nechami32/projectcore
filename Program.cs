@@ -101,7 +101,12 @@ builder.Services.AddAuthorization(cfg =>
 {
     cfg.AddPolicy("Admin", policy => policy.RequireClaim("type", "Admin"));
     cfg.AddPolicy("User", policy => policy.RequireClaim("type", "User"));
+                        cfg.AddPolicy("ClearanceLevel1", policy => policy.RequireClaim("ClearanceLevel", "1", "2"));
+                    cfg.AddPolicy("ClearanceLevel2", policy => policy.RequireClaim("ClearanceLevel", "2"));
 });
+
+
+
 
 // הגדרת Swagger
 builder.Services.AddSwaggerGen(c =>
@@ -144,9 +149,11 @@ if (app.Environment.IsDevelopment())
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
-
-app.UseAuthentication(); // הפעלת אימות טוקן
-app.UseAuthorization();  // הפעלת הרשאות
+ app.UseRouting();
+ app.UseAuthentication();
+app.UseAuthorization(); 
+ // הפעלת אימות טוקן
+ // הפעלת הרשאות
 
 //app.TokenExtensions(); // הוספת המידלוואר לפייפליין
 // מותאם אישית לבדיקת פג תוקף של הטוקן
